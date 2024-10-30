@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Calculator</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #121212;
+            color: #e0e0e0;
+            position: relative;
+        }
+
+        #calculator {
+            width: 320px;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        #display {
+            width: 100%;
+            height: 60px;
+            font-size: 24px;
+            padding: 10px;
+            text-align: right;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #333;
+            color: #00e676;
+        }
+
+        .button {
+            width: 70px;
+            height: 70px;
+            font-size: 20px;
+            margin: 5px;
+            background-color: #333;
+            color: #e0e0e0;
+            border: none;
+            border-radius: 15px; /* Curved edges for buttons */
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .button.operator {
+            background-color: #ff7043;
+        }
+
+        .button:active {
+            transform: scale(0.95);
+            background-color: #444;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button.clear {
+            width: calc(100% - 10px); /* Full width minus margin */
+            margin: 5px 5px 0 5px; /* Adjusted margins for clear button */
+            background-color: #d32f2f;
+            height: 70px; /* Same height as other buttons */
+            border-radius: 15px; /* Curved edges for clear button */
+        }
+
+        .button.clear:active {
+            background-color: #c62828;
+        }
+
+        .button.operator:active {
+            background-color: #f4511e;
+        }
+
+        .footer {
+            text-align: right;
+            font-size: 10px;
+            color: #e0e0e0;
+            margin-top: 10px;
+            position: absolute;
+            bottom: -30px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <input type="text" id="display" disabled />
+    <div class="row">
+        <button class="button" onclick="appendNumber('7')">7</button>
+        <button class="button" onclick="appendNumber('8')">8</button>
+        <button class="button" onclick="appendNumber('9')">9</button>
+        <button class="button operator" onclick="setOperator('/')">÷</button>
+    </div>
+    <div class="row">
+        <button class="button" onclick="appendNumber('4')">4</button>
+        <button class="button" onclick="appendNumber('5')">5</button>
+        <button class="button" onclick="appendNumber('6')">6</button>
+        <button class="button operator" onclick="setOperator('*')">×</button>
+    </div>
+    <div class="row">
+        <button class="button" onclick="appendNumber('1')">1</button>
+        <button class="button" onclick="appendNumber('2')">2</button>
+        <button class="button" onclick="appendNumber('3')">3</button>
+        <button class="button operator" onclick="setOperator('-')">−</button>
+    </div>
+    <div class="row">
+        <button class="button" onclick="appendNumber('0')">0</button>
+        <button class="button" onclick="appendNumber('.')">.</button>
+        <button class="button" onclick="calculate()">=</button>
+        <button class="button operator" onclick="setOperator('+')">+</button>
+    </div>
+    <div class="row">
+        <button class="button clear" onclick="clearDisplay()">Clear</button>
+    </div>
+    <div class="footer">Made By Syn3z</div>
+</div>
+
+<script>
+    let display = document.getElementById('display');
+    let currentInput = '';
+    let operator = null;
+    let firstOperand = null;
+
+    function appendNumber(number) {
+        currentInput += number;
+        display.value = currentInput;
+    }
+
+    function setOperator(op) {
+        if (currentInput === '') return;
+        operator = op;
+        firstOperand = parseFloat(currentInput);
+        currentInput = '';
+    }
+
+    function calculate() {
+        if (currentInput === '' || operator === null || firstOperand === null) return;
+        const secondOperand = parseFloat(currentInput);
+        let result;
+
+        switch (operator) {
+            case '+':
+                result = firstOperand + secondOperand;
+                break;
+            case '-':
+                result = firstOperand - secondOperand;
+                break;
+            case '*':
+                result = firstOperand * secondOperand;
+                break;
+            case '/':
+                result = firstOperand / secondOperand;
+                break;
+        }
+
+        display.value = result;
+        currentInput = '';
+        firstOperand = null;
+        operator = null;
+    }
+
+    function clearDisplay() {
+        currentInput = '';
+        firstOperand = null;
+        operator = null;
+        display.value = '';
+    }
+</script>
+
+</body>
+</html>
+
+
